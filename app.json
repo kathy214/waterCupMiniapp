@@ -1,0 +1,48 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/search/search",
+    "pages/control/control",
+    "pages/list/list",
+    "pages/fingerprint/fingerprint",
+    "pages/my/my"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "智能指纹水杯",
+    "navigationBarBackgroundColor": "#F1F3F5",
+    "usingComponents": {}
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#32BAC0",
+    "backgroundColor": "#ffffff",
+    "borderStyle":"white",  
+    "list": [
+      {
+      "selectedIconPath": "/images/index_active_btn.png",  
+      "iconPath": "/images/index_btn.png",  
+      "pagePath": "pages/index/index",  
+      "text": "首页"
+      }, 
+      {
+        "selectedIconPath": "/images/my_active_btn.png",  
+        "iconPath": "/images/my_btn.png",  
+        "pagePath": "pages/my/my",  
+        "text": "我的"
+      }
+    ]
+  },
+  "permission": {
+    "scope.bluetooth": {
+      "desc": "你的蓝牙设备将用于小程序蓝牙接口的效果展示"
+    },
+    "scope.userLocation":{
+      "desc": "你的位置将用于小程序蓝牙接口的效果展示"
+    }
+  },
+  "style": "v2",
+  "componentFramework": "glass-easel",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}
