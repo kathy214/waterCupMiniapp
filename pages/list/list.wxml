@@ -1,0 +1,22 @@
+<view>
+  <view class="empty" wx:if="{{ !userList.length }}">
+    <image src="/images/empty.png" mode="widthFix"/>
+    <view class="text">
+      <view>当前没有录入的指纹， </view>
+      <view>请点击<text>【添加】</text>按键，开始录入~</view>
+    </view>
+  </view>
+  <view class="list" wx:else>
+    <view class="tip">最多支持录入20枚指纹数据哦~</view>
+    <view class="item" wx:for="{{userList}}" wx:key="index">
+      <view class="edit">
+        <text>{{item.name}}</text>
+        <image src="/images/edit_btn.png" mode="widthFix" bind:tap="edit" data-name="{{item.name}}" data-id="{{item.id}}"/>
+      </view>
+      <view class="del">删除</view>
+    </view>
+  </view>
+  <view class="bottom">
+    <navigator class="button" url="/pages/fingerprint/fingerprint">添加</navigator>
+  </view>
+</view>

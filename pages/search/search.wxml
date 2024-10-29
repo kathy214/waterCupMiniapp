@@ -1,0 +1,21 @@
+<view class="main">
+  <view class="search" wx:if="{{ !deviceList.length }}">
+    <image src="/images/search.gif" mode="widthFix"/>
+    <!-- <image src="/images/search_btn.png" mode="widthFix"/> -->
+  </view>
+  <view class="list" wx:else>
+    <view class="item" 
+      wx:for="{{ deviceList }}" 
+      wx:key="index"  
+      data-item="{{item}}"
+      bind:tap="navigateTo">
+      <text>{{ item.localName }}</text>
+      <text class="link">点击连接</text>
+    </view>
+  </view>
+  <view class="bottom">
+    <view class="text">正在搜索附件设备，请触摸一次水杯指纹头打开蓝牙</view>
+    <view class="search-btn" bind:tap="search">点击刷新设备列表</view>
+  </view>
+ 
+</view>

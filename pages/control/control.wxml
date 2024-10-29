@@ -1,0 +1,35 @@
+<view class="main">
+  <view class="show-content">
+    <image class="bg" src="/images/show_bg.png" mode="widthFix"/>
+    <image class="fingerprint" src="/images/fingerprint_image.png" mode="widthFix"/>
+  </view>
+  <view class="mian-content">
+    <view class="state block-content">
+      <view class="item">
+        <image src="/images/connect.png" mode="widthFix"/>
+        <view class="describe">
+          <text>连接状态</text>
+          <view class="value">已连接</view>
+        </view>
+      </view>
+      <view class="line"></view>
+      <view class="item">
+        <image src="/images/electric.png" mode="widthFix"/>
+        <view class="describe">
+          <text>水杯电量</text>
+          <view class="value">80%</view>
+        </view>
+      </view>
+    </view>
+    <navigator class="fingerprint-list block-content" url="/pages/list/list">
+      <text>指纹列表</text>
+      <view class="right">
+        0枚<image src="/images/right_btn.png" mode="widthFix"/>
+      </view>
+    </navigator>
+    
+  </view>
+  <view class="bottom">
+    <view class="button" bind:tap="unlockTo">一键解锁</view>
+  </view>
+</view>

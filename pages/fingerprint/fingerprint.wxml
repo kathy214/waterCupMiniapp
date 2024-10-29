@@ -1,0 +1,9 @@
+<view>
+  <view class="record">
+    <view>{{ step < 8 ? '正在录入中...' : '录入完成' }}</view>
+    <image src="/images/fingerprint_{{step}}.png" mode="widthFix"/>
+    <view class="step"><text>{{ step }}</text> / 8 </view>
+  </view>
+  <view class="tip">请将需要录入指纹的手指，轻触在水杯上，完成录入</view>
+  <view bind:tap="next">测试指纹添加图片</view>
+</view>

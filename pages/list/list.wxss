@@ -1,0 +1,68 @@
+.empty{
+  padding-top: 220rpx;
+  text-align: center;
+}
+.empty image{
+  width: 640rpx;
+}
+.empty .text{
+  font-size: 32rpx;
+  color: #666666;
+  margin-top: 60rpx;
+}
+.empty .text text{
+  color: #32BAC0;
+}
+.list{
+  padding: 0 30rpx;
+}
+.list .tip{
+  color: #999999;
+  font-size: 28rpx;
+  line-height: 80rpx;
+  text-align: center;
+}
+.list .item{
+  height: 120rpx;
+  background: #FFFFFF;
+  border-radius: 50rpx;
+  margin-bottom: 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 60rpx;
+}
+.list .item .edit{
+  font-weight: 500;
+  font-size: 32rpx;
+  color: #000000;
+  display: flex;
+  align-items: center;
+}
+.list .item .edit image{
+  width: 40rpx;
+  margin-left: 32rpx;
+}
+.list .item .del{
+  font-size: 28rpx;
+  color: #FA2F2F;
+  padding-right: 50rpx;
+}
+.bottom{
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background: #ffffff;
+  padding: 20rpx 116rpx 60rpx;
+}
+.bottom .button{
+  width: 520rpx;
+  height: 84rpx;
+  line-height: 84rpx;
+  text-align: center;
+  font-size: 32rpx;
+  color: #FFFFFF;
+  background: #32BAC0;
+  border-radius: 120rpx;
+}

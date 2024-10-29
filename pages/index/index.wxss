@@ -1,0 +1,79 @@
+.main{
+  background: #F2F3F5;
+  height: 100vh;
+}
+.show-content{
+  width: 100%;
+  height: 680rpx;
+  text-align: center;
+  position: relative;
+}
+.show-content .bg{
+  width: 100%;
+}
+.show-content .fingerprint{
+  position: absolute;
+  width: 466rpx;
+  left: 50%;
+  top: 64rpx;
+  margin-left: -233rpx;
+}
+.mian-content{
+  padding: 0 30rpx;
+  margin-top: -86rpx;
+  position: relative;
+}
+.mian-content .add-device{
+  height: 176rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 50rpx;
+}
+.mian-content .add_btn{
+  width: 100rpx;
+}
+.mian-content .add-device .text-content{
+  font-weight: 500;
+  font-size: 32rpx;
+  color: #000000;
+  font-weight: 500;
+}
+.mian-content .add-device .text-content .tip{
+  font-weight: 400;
+  font-size: 28rpx;
+  color: rgba(0,0,0,0.6);
+  margin-top: 12rpx;
+}
+.mian-content .device{
+  padding: 52rpx 50rpx 40rpx;
+}
+.device .text-content .text{
+  font-weight: 500;
+  font-size: 32rpx;
+  color: #000000;
+}
+.device .text-content .info{
+  display: flex;
+  margin-top: 12rpx;
+  text-align: left;
+}
+.device .text-content .info .item{
+  margin-right: 44rpx;
+  display: flex;
+}
+.device .text-content .info .item image{
+  width: 40rpx;
+  margin-right: 12rpx;
+  display: inline-block;
+}
+.device .text-content .info .item text{
+  font-size: 28rpx;
+  color: rgba(0,0,0,0.6);
+}
+.device .state{
+  position: absolute;
+  width: 80rpx;
+  top: 48rpx;
+  right: 80rpx;
+}

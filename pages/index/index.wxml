@@ -1,0 +1,36 @@
+<view class="main">
+  <view class="show-content">
+    <image class="bg" src="/images/show_bg.png" mode="widthFix"/>
+    <image class="fingerprint" src="/images/fingerprint_image.png" mode="widthFix"/>
+  </view>
+  <view class="mian-content">
+    <view wx:if="{{ deviceData.localName }}" class="block-content device" bind:tap="navigateTo">
+      <view class="text-content">
+        <view class="text">智能指纹水杯</view>
+        <view class="info">
+          <view class="item">
+            <image src="/images/link_btn.png" mode="widthFix"/>
+            <text>{{ isConnected ? '已连接' : '断开'}}</text>
+          </view>
+          <view class="item">
+            <image src="/images/electric_btn.png" mode="widthFix"/>
+            <text>88%</text>
+          </view>
+          <view class="item">
+            <image src="/images/fingerprint_btn.png" mode="widthFix"/>
+            <text>3枚</text>
+          </view>
+        </view>
+      </view>
+      <image wx:if="{{isConnecting}}" class="state" src="/images/loading.gif" mode="widthFix"/>
+      <image wx:if="{{!isConnecting && isFailed}}" class="state" src="/images/fail_btn.png" mode="widthFix"/>
+    </view>
+    <navigator class="block-content add-device"  url="/pages/search/search">
+      <view class="text-content">
+        <view>暂未找到设备</view>
+        <view class="tip">请添加设备</view>
+      </view>
+      <image class="add_btn" src="/images/add_btn.png" mode="widthFix"/>
+    </navigator>
+  </view>
+</view>

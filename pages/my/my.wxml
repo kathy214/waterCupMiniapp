@@ -1,0 +1,32 @@
+<view>
+  <view class="user">
+    <image src="/images/my_bg.png" mode="widthFix"/>
+    <view class="text">133****3333</view>
+  </view>
+  <view class="other">
+      <view class="item">
+        <view class="label">
+          <image src="/images/service.png" mode="widthFix"/>
+          在线客服
+        </view>
+        <image class="right-btn" src="/images/right_btn.png" mode="widthFix"/>
+      </view>
+      <view class="item" bind:tap="del">
+        <view class="label">
+          <image src="/images/del_btn.png" mode="widthFix"/>
+          删除水杯
+        </view>
+        <image class="right-btn" src="/images/right_btn.png" mode="widthFix"/>
+      </view>
+      <view class="item" bindtap="reset">
+        <view class="label">
+          <image src="/images/reset.png" mode="widthFix"/>
+          厂家重置
+        </view>
+        <image class="right-btn" src="/images/right_btn.png" mode="widthFix"/>
+      </view>
+  </view>
+  <view class="bottom">
+    <view class="btn" bind:tap="login">退出登录</view>
+  </view>
+</view>
