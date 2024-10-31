@@ -4,18 +4,18 @@ Page({
 
   /**
    * 页面的初始数据
+   * "10011000000000000001"
    */
   data: {
-    userList: [
-      { name: '爸爸1', id: 1 },
-      { name: '爸爸2', id: 2 }
-    ]
+    fingerprintList: [], // ["1","0","1"]
+    fingerprintNUm: 0,
+    add: false
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad(options) {
+  onLoad() {
     let _this = this;
     wx.getStorage({
       key: 'deviceData',
@@ -28,13 +28,6 @@ Page({
         }
       }
     })
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
   },
 
   /**
@@ -67,7 +60,7 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide() {
-
+    this.setData({ add: false })
   },
 
   /**
@@ -78,8 +71,8 @@ Page({
   },
   getBLEDeviceCharacteristics() {
     let _this = this;
+    
     let { deviceId, serviceId } = this.data.deviceData;
-    console.log('deviceId---',deviceId, serviceId)
     deviceUtil.getBLEDeviceCharacteristics(deviceId, serviceId, (item) => {
       if (item.properties.read) {
         wx.readBLECharacteristicValue({
@@ -118,8 +111,8 @@ Page({
         let buffers = {
           "fun":"kws_download",
           "dpid":"0",
-          "type":"2",
-          "string":"QUMI",
+          "type":"1",
+          "value":"MS",
         }
         _this.writeBLECharacteristicValue(buffers)
       }
@@ -128,22 +121,44 @@ Page({
     // 操作之前先监听，保证第一时间获取数据
     deviceUtil.onBLECharacteristicValueChange((params) => {
       switch(params.dpid*1) {
+        // case 20:
+        //   console.log('add',_this.data.add)
+        //   if(_this.data.add){
+        //     console.log('跳转')
+        //     wx.navigateTo({
+        //       url: '/pages/fingerprint/fingerprint',
+        //     })
+        //   }
         case 6:
-          this.setData({
-            unlock: params.value
+          let obj = util.handleList(params.string);
+          _this.setData({
+            fingerprintList: obj.list,
+            fingerprintNUm: obj.num
           });
           break;
         case 7:
-          this.setData({
-            users: params.value
-          });
+          let str = '';
+          let arr = params.string.split(",")
+          if(arr[0] == '5' && _this.data.add){
+            console.log('跳转')
+            wx.navigateTo({
+              url: '/pages/fingerprint/fingerprint',
+            })
+          }
+          if(arr[0] == '4'){
+            str = '删除失败，请稍后重试'
+          }
+          if(arr[0] == '6'){
+            str = '添加失败，请稍后重试'
+          }
+          str && _this.toast(str)
           break;
       }
     })
     return;
   },
   writeBLECharacteristicValue(buffers) {  
-    let { deviceId, serviceId, characteristicId } = this.data;
+    let { deviceId, serviceId, characteristicId } = this.data.deviceData;
     let _this = this;
     const str = JSON.stringify(buffers);
     console.log(str);
@@ -159,8 +174,8 @@ Page({
     let arrayBuffer = buffer.buffer;
     
     // console.log(ab2hex(arrayBuffer));
-    console.log(arrayBuffer);
-    console.log('时间2：',new Date().getTime(),util.formatTime(new Date()))
+    // console.log(arrayBuffer);
+    // console.log('时间2：',new Date().getTime(),util.formatTime(new Date()))
     wx.writeBLECharacteristicValue({
       deviceId,
       serviceId,
@@ -168,7 +183,7 @@ Page({
       // writeType:'writeNoResponse',
       value:arrayBuffer, 
       success (res) {
-        console.log('writeBLECharacteristicValue success', new Date().getTime(), util.formatTime(new Date()), res)
+        // console.log('writeBLECharacteristicValue success', new Date().getTime(), util.formatTime(new Date()), res)
       },
       fail(res) {
         if(res.errCode == 10001){
@@ -211,15 +226,34 @@ Page({
       }
     })
   },
-  del(){
+  del(e){
+    let id = e.currentTarget.dataset.id
     let buffers = {
       "fun":"kws_download",
       "dpid": "7",
-      "type":"1",
-      "value": "0",
+      "type":"2",
+      "string": "0," + id,
     }
     this.writeBLECharacteristicValue(buffers)
   },
+
+  add() {
+    this.setData({ add: true })
+    let buffers = {
+      "fun":"kws_download",
+      "dpid": "7",
+      "type":"2",
+      "string": "1",
+    }
+    // let buffers = {
+    //   "fun":"kws_download",
+    //   "dpid": "20",
+    //   "type":"1",
+    //   "value": "30",
+    // }
+    this.writeBLECharacteristicValue(buffers)
+  },
+
   toast(msg){
     wx.showToast({
       title: msg,

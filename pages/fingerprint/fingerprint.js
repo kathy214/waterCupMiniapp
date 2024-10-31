@@ -8,24 +8,13 @@ Page({
   data: {
     deviceData:{},
     step: 0,
+    finished: false
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    // wx.showModal({
-    //   content: '录入超时，请重新录入~',
-    //   showCancel: false,
-    //   confirmText: '重新录入',
-    //   confirmColor: '#32BAC0',
-    //   success (res) {
-    //     if (res.confirm) {
-    //       console.log('用户点击确定')
-    //     }
-    //   }
-    // })
-
     // wx.showModal({
     //   title:'温馨提示',
     //   content: '指纹录入中，退出后录入无效！',
@@ -56,6 +45,7 @@ Page({
           _this.setData({
             deviceData: JSON.parse(res.data || '[]')
           })
+          _this.getBLEDeviceCharacteristics()
         }
       }
     })
@@ -116,8 +106,8 @@ Page({
         let buffers = {
           "fun":"kws_download",
           "dpid":"0",
-          "type":"2",
-          "string":"QUMI",
+          "type":"1",
+          "value":"MS",
         }
         _this.writeBLECharacteristicValue(buffers)
       }
@@ -127,25 +117,29 @@ Page({
     deviceUtil.onBLECharacteristicValueChange((params) => {
       switch(params.dpid*1) {
         case 8:
+          console.log('步骤：', params.value)
           this.setData({
             step: params.value
           });
           break;
         case 9:
-          // this.setData({
-          //   unlock: params.value
-          // });
+          let arr = params.string.split(",")
           let msg = ''
-          if(params.value == 1){
+          if(arr[0] == 0 && _this.data.step >= 8){
+            wx.navigateTo({
+              url: '/pages/list/list',
+            })
+          }
+          if(arr[0] == 1){
             mag = '按压重复面积过多，请挪动手指再次按压'
           }
-          if(params.value == 1){
+          if(arr[0] == 2){
             mag = '录入超时，退出当前模式'
           }
-          if(params.value == 1){
+          if(arr[0] == 3){
             mag = '失败，退出当前模式'
           }
-          if(params.value == 1){
+          if(arr[0] == 4){
             mag = '其他异常'
           }
           msg && this.toast(msg)
@@ -155,7 +149,7 @@ Page({
     return;
   },
   writeBLECharacteristicValue(buffers) {  
-    let { deviceId, serviceId, characteristicId } = this.data;
+    let { deviceId, serviceId, characteristicId } = this.data.deviceData;
     let _this = this;
     const str = JSON.stringify(buffers);
     console.log(str);
@@ -171,8 +165,8 @@ Page({
     let arrayBuffer = buffer.buffer;
     
     // console.log(ab2hex(arrayBuffer));
-    console.log(arrayBuffer);
-    console.log('时间2：',new Date().getTime(),util.formatTime(new Date()))
+    // console.log(arrayBuffer);
+    // console.log('时间2：',new Date().getTime(),util.formatTime(new Date()))
     wx.writeBLECharacteristicValue({
       deviceId,
       serviceId,

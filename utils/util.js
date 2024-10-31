@@ -71,6 +71,18 @@ const trans = (num)=> {
   }
   return result
 }
+// 指纹列表数据转换
+const handleList = (data) => {
+  let obj = {}
+  if(!data){
+    return  obj
+  }
+  let list = data.split("");
+  obj.list = list;
+  obj.num = list.filter(e => e == 1).length;
+  console.log('obj--->',obj)
+  return obj;
+}
 
 module.exports = {
   formatTime,
@@ -78,5 +90,6 @@ module.exports = {
   hexToBytes,
   bytesToString,
   inArray,
-  trans
+  trans,
+  handleList
 }

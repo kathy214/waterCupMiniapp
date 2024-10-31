@@ -18,18 +18,18 @@ const getBLEDeviceCharacteristics = (deviceId, serviceId, callBack) => {
 }
 const onBLECharacteristicValueChange = (callBack) => {
   wx.onBLECharacteristicValueChange((characteristic) => {
-    console.log('监听T0',characteristic);
+    // console.log('监听T0',characteristic.value);
     // let hexString = util.ab2hex(characteristic.value);
-    let hexString = util.ab2hex(characteristic.value);
+    let hexString = util.ab2hex(characteristic.value.slice(1));
     if(!hexString) return;
     // 转换为字节数组
     let bytes = util.hexToBytes(hexString);
-    console.log('监听T1',util.ab2hex(characteristic.value));
-    console.log('监听T2',util.hexToBytes(hexString));
+    // console.log('监听T1',util.ab2hex(characteristic.value), util.ab2hex(characteristic.value.slice(1)));
+    // console.log('监听T2',util.hexToBytes(hexString));
 
     // 转换为文本字符串
     let string = util.bytesToString(bytes);
-    console.log('监听T3',util.bytesToString(bytes));
+    console.log('监听T3:',string, isJSON(string));
     // 监听T3  {
     //   "fun":	"kws_update",
     //   "dpid":	"19",
@@ -38,7 +38,7 @@ const onBLECharacteristicValueChange = (callBack) => {
     // }
 
     // 解析为对象
-    let object = JSON.parse(string);
+    let object = isJSON(string) && JSON.parse(string);
     callBack(object);
   })
   
@@ -67,12 +67,20 @@ const writeBLECharacteristicValue = (buffers, deviceId, serviceId, characteristi
     characteristicId,
     value:arrayBuffer, 
     success (res) {
-      console.log('writeBLECharacteristicValue success', new Date().getTime())
+      // console.log('writeBLECharacteristicValue success', new Date().getTime())
     },
     fail(res) {
       console.error('writeBLECharacteristicValue', res)
     }
   })
+}
+const isJSON = (str) => {
+  try {
+    JSON.parse(str);
+    return true;
+  } catch (e) {
+    return false;
+  }
 }
 
 module.exports = {

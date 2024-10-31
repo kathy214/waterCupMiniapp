@@ -10,7 +10,7 @@ Page({
     deviceData:{},
     electric: 0,
     unlock: 0, // 0关，1开
-    users: []
+    fingerprintNUm: 0
   },
 
   /**
@@ -29,7 +29,6 @@ Page({
       key: 'deviceData',
       success (res) {
         if(res.data){
-          console.log('deviceData',res.data)
           _this.setData({
             deviceData: JSON.parse(res.data || '{}')
           })
@@ -93,8 +92,8 @@ Page({
         let buffers = {
           "fun":"kws_download",
           "dpid":"0",
-          "type":"3",
-          "string":"MS",
+          "type":"1",
+          "value":"MS",
         }
         _this.writeBLECharacteristicValue(buffers)
       }
@@ -105,7 +104,7 @@ Page({
       switch(params.dpid*1) {
         case 4:
           this.setData({
-            electric: params.value
+            electric: params.string
           });
           break;
         case 5:
@@ -114,8 +113,9 @@ Page({
           });
           break;
         case 6:
-          this.setData({
-            users: params.value
+          let obj = util.handleList(params.string);
+          _this.setData({
+            fingerprintNUm: obj.num
           });
           break;
       }
@@ -148,7 +148,7 @@ Page({
       // writeType:'writeNoResponse',
       value:arrayBuffer, 
       success (res) {
-        console.log('writeBLECharacteristicValue success', new Date().getTime(), util.formatTime(new Date()), res)
+        // console.log('writeBLECharacteristicValue success', new Date().getTime(), util.formatTime(new Date()), res)
       },
       fail(res) {
         if(res.errCode == 10001){
@@ -168,7 +168,7 @@ Page({
     }
     let buffers = {
       "fun":"kws_download",
-      "dpid": "5",
+      "dpid": "5",  //5
       "type":"1",
       "value": "1",
     }

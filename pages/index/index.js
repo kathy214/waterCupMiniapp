@@ -11,7 +11,7 @@ Page({
     isFailed: false,
     isOpenBlue: false,
     electric: 0,
-    fingerprintNum: 2,
+    fingerprintNum: 0,
     deviceData: {}
   },
 
@@ -42,8 +42,10 @@ Page({
       success (res) {
         if(res.data){
           _this.setData({
-            deviceData: JSON.parse(res.data || '{}')
+            deviceData: JSON.parse(res.data || '{}'),
+            isConnecting: true
           })
+          console.log(111111)
           _this.createBLEConnection();
         }
       }
@@ -193,7 +195,8 @@ Page({
         deviceData.characteristicId = item.uuid;
         console.log('deviceData', deviceData)
         wx.setStorage({
-          deviceData: JSON.stringify(deviceData)
+          key:"deviceData",
+          data: JSON.stringify(deviceData)
         })
       }
       if (item.properties.notify || item.properties.indicate) {
@@ -212,25 +215,27 @@ Page({
         let buffers = {
           "fun":"kws_download",
           "dpid":"0",
-          "type":"3",
-          "string":"MS",
+          "type":"1",
+          "value":"MS",
         }
         _this.writeBLECharacteristicValue(buffers)
       }
     })
     // 操作之前先监听，保证第一时间获取数据
     deviceUtil.onBLECharacteristicValueChange((params) => {
+      console.log('params', params)
+      console.log('string', params.string)
       switch(params.dpid*1) {
-        case 1:
+        case 4:
           this.setData({
-            airFlag: (params.value == 1 ? true : false)
+            electric: params.string
           });
           break;
-        case 2:
-          this.setData({
-            mode: params.value
-          });
-          break;
+        case 6:
+            let obj = util.handleList(params.string);
+            // _this.setData({
+            //   fingerprintNUm: obj.num
+            // });
         
       }
       this.setData({ loading: false })
@@ -242,7 +247,6 @@ Page({
     let _this = this;
     const str = JSON.stringify(buffers);
     console.log('str--->',str);
-    // str-- {"fun":"kws_download","dpid":"0","type":"2","string":"QUMI"}
     // 创建一个 ArrayBuffer 和 DataView
     let data = new ArrayBuffer(str.length+1);
     let buffer = new DataView(data);
@@ -265,7 +269,7 @@ Page({
       // writeType:'writeNoResponse',
       value:arrayBuffer, 
       success (res) {
-        console.log('writeBLECharacteristicValue success', new Date().getTime(), util.formatTime(new Date()), res)
+        // console.log('writeBLECharacteristicValue success', new Date().getTime(), util.formatTime(new Date()), res)
       },
       fail(res) {
         if(res.errCode == 10001){

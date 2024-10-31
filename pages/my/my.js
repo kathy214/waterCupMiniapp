@@ -96,8 +96,8 @@ Page({
         let buffers = {
           "fun":"kws_download",
           "dpid":"0",
-          "type":"2",
-          "string":"QUMI",
+          "type":"1",
+          "value":"MS",
         }
         _this.writeBLECharacteristicValue(buffers)
       }
@@ -121,7 +121,7 @@ Page({
     return;
   },
   writeBLECharacteristicValue(buffers) {  
-    let { deviceId, serviceId, characteristicId } = this.data;
+    let { deviceId, serviceId, characteristicId } = this.data.deviceData;
     let _this = this;
     const str = JSON.stringify(buffers);
     console.log(str);
@@ -146,7 +146,7 @@ Page({
       // writeType:'writeNoResponse',
       value:arrayBuffer, 
       success (res) {
-        console.log('writeBLECharacteristicValue success', new Date().getTime(), util.formatTime(new Date()), res)
+        // console.log('writeBLECharacteristicValue success', new Date().getTime(), util.formatTime(new Date()), res)
       },
       fail(res) {
         if(res.errCode == 10001){
@@ -161,6 +161,7 @@ Page({
     })
   },
   reset() {
+    let _this = this;
     console.log(1111111)
     wx.showModal({
       title: '录入密码',
@@ -183,8 +184,8 @@ Page({
                 let buffers = {
                   "fun":"kws_download",
                   "dpid": "11",
-                  "type":"1",
-                  "value": "1",
+                  "type":"2",
+                  "string": "1",
                 }
                 _this.writeBLECharacteristicValue(buffers)
               }
@@ -218,8 +219,8 @@ Page({
           let buffers = {
             "fun":"kws_download",
             "dpid": "3",
-            "type":"1",
-            "value": "0",
+            "type":"2",
+            "string": "0",
           }
           _this.writeBLECharacteristicValue(buffers)
         }

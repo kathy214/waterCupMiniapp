@@ -24,7 +24,7 @@
     <navigator class="fingerprint-list block-content" url="/pages/list/list">
       <text>指纹列表</text>
       <view class="right">
-        0枚<image src="/images/right_btn.png" mode="widthFix"/>
+        {{ fingerprintNUm }}枚<image src="/images/right_btn.png" mode="widthFix"/>
       </view>
     </navigator>
     
